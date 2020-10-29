@@ -41,7 +41,7 @@ public class EmployeePayrollTest {
 	}
 
 	@Test
-	public void givenNewSalaryForEmployee_WhenUpdatedUsingPreparedStatement_ShouldMatch() {
+	public void givenNewSalaryForEmployee_WhenUpdatedUsingPreparedStatement_ShouldSyncWithDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
 		employeePayrollService.updateEmployeeSalaryUsingPrepareStatement("Terisa", 2000000.00);
