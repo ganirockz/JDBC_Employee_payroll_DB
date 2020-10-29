@@ -1,5 +1,6 @@
 package com.capgemini;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class EmployeePayrollService {
@@ -94,6 +95,14 @@ public class EmployeePayrollService {
 		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
 		if (employeePayrollData != null)
 			employeePayrollData.setSalary(salary);
+	}
+
+	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService dbIo, LocalDate startDate,
+			LocalDate endDate) {
+		if(dbIo.equals(IOService.DB_IO)) {
+			return employeePayrollDBService.getEmployeeForGivenDateRange(startDate,endDate);
+		}
+		return null;
 	}
 
 }
