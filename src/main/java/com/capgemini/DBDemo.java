@@ -1,4 +1,4 @@
-package DBDemo;
+package com.capgemini;
 
 import java.sql.Connection;
 import java.sql.Date;
