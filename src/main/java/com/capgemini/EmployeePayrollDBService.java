@@ -2,6 +2,7 @@ package com.capgemini;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -48,6 +49,21 @@ public class EmployeePayrollDBService {
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			return statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int updateEmployeeDataUsingPreparedStatement(String name, double salary) {
+		return this.updateEmployeeDataUsingPrepareStatement(name, salary);
+	}
+
+	private int updateEmployeeDataUsingPrepareStatement(String name, double salary) {
+		String sql = String.format("update employee_payroll set basic_pay= %.2f where name = '%s';", salary, name);
+		try (Connection connection = this.getConnection()) {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
