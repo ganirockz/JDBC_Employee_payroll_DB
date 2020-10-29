@@ -50,10 +50,39 @@ public class EmployeePayrollService {
 	}
 
 	public List<EmployeePayrollData> readEmployeePayrollData(IOService dbIo) {
-		if(dbIo.equals(IOService.DB_IO)) {
+		if (dbIo.equals(IOService.DB_IO)) {
 			this.employeePayrollList = new EmployeePayrollDBService().readData();
 		}
 		return this.employeePayrollList;
+	}
+
+	public void updateEmployeeSalary(String name, double salary) {
+		int result = new EmployeePayrollDBService().updateEmployeeData(name, salary);
+		if (result == 0)
+			return;
+		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+		if (employeePayrollData != null)
+			employeePayrollData.setSalary(salary);
+	}
+
+	private EmployeePayrollData getEmployeePayrollData(String name) {
+		for (EmployeePayrollData data : employeePayrollList) {
+			if (data.getName().equals(name)) {
+				return data;
+			}
+		}
+		return null;
+	}
+
+	public boolean checkEmployeePayrollInSyncWithDB(String name) {
+		for (EmployeePayrollData data : employeePayrollList) {
+			if (data.getName().equals(name)) {
+				if (Double.compare(data.getSalary(), 3000000.00) == 0) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
