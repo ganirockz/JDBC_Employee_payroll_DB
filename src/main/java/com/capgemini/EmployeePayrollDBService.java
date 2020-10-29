@@ -29,7 +29,18 @@ public class EmployeePayrollDBService {
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(sql);
-			this.getEmployeePayrollData(result);
+			try {
+				while (result.next()) {
+					int id = result.getInt("id");
+					String name = result.getString("name");
+					double salary = result.getDouble("basic_pay");
+					LocalDate startDate = result.getDate("start").toLocalDate();
+					employeePayrollList.add(new EmployeePayrollData(id, name, salary, startDate));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return employeePayrollList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -124,10 +135,38 @@ public class EmployeePayrollDBService {
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(sql);
-			this.getEmployeePayrollData(result);
+			try {
+				while (result.next()) {
+					int id = result.getInt("id");
+					String name = result.getString("name");
+					double salary = result.getDouble("basic_pay");
+					LocalDate start = result.getDate("start").toLocalDate();
+					employeePayrollList.add(new EmployeePayrollData(id, name, salary, start));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return employeePayrollList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return employeePayrollList;
+	}
+
+	public Map<String, Double> getAverageSalaryByGender() {
+		String sql = "select gender,avg(basic_pay) as avg_salary from employee_payroll group by gender;";
+		Map<String, Double> genderToAverageSalaryMap = new HashMap<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				String gender = result.getString("gender");
+				double salary = result.getDouble("avg_salary");
+				genderToAverageSalaryMap.put(gender, salary);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return genderToAverageSalaryMap;
 	}
 }
