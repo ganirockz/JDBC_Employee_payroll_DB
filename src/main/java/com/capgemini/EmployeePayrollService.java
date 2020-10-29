@@ -99,8 +99,15 @@ public class EmployeePayrollService {
 
 	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService dbIo, LocalDate startDate,
 			LocalDate endDate) {
-		if(dbIo.equals(IOService.DB_IO)) {
-			return employeePayrollDBService.getEmployeeForGivenDateRange(startDate,endDate);
+		if (dbIo.equals(IOService.DB_IO)) {
+			return employeePayrollDBService.getEmployeeForGivenDateRange(startDate, endDate);
+		}
+		return null;
+	}
+
+	public Map<String, Double> readAverageSalaryByGender(IOService dbIo) {
+		if (dbIo.equals(IOService.DB_IO)) {
+			return employeePayrollDBService.getAverageSalaryByGender();
 		}
 		return null;
 	}

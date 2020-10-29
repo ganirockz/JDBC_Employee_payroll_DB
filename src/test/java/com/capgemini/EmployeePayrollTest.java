@@ -32,7 +32,7 @@ public class EmployeePayrollTest {
 		Assert.assertEquals(3, employeePayrollData.size());
 	}
 
-	
+	@Test
 	public void givenNewSalaryForEmployee_WhenUpdated_ShouldMatch() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -41,7 +41,7 @@ public class EmployeePayrollTest {
 		Assert.assertTrue(result);
 	}
 
-	
+	@Test
 	public void givenNewSalaryForEmployee_WhenUpdatedUsingPreparedStatement_ShouldSyncWithDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -59,5 +59,14 @@ public class EmployeePayrollTest {
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService
 				.readEmployeePayrollForDateRange(IOService.DB_IO, startDate, endDate);
 		Assert.assertEquals(3, employeePayrollData.size());
+	}
+
+	@Test
+	public void givenPayrollData_WhenAverageSalaryRetrievedByGender_ShouldReturnProperValue() {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		Map<String, Double> averageSalaryByGender = employeePayrollService.readAverageSalaryByGender(IOService.DB_IO);
+		Assert.assertTrue(
+				averageSalaryByGender.get("M").equals(2000000.00) && averageSalaryByGender.get("F").equals(3000000.00));
 	}
 }
