@@ -169,4 +169,25 @@ public class EmployeePayrollDBService {
 		}
 		return genderToAverageSalaryMap;
 	}
+
+	public EmployeePayrollData addEmployee(String name, double salary, LocalDate startDate, String gender) {
+		String sql = String.format(
+				"insert into employee_payroll (name,basic_pay,start,gender) values ('%s',%.2f,'%s','%s');", name,
+				salary, startDate.toString(), gender);
+		int empId = -1;
+		EmployeePayrollData employeePayrollData = null;
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			int rowsAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+			if (rowsAffected == 1) {
+				ResultSet resultSet = statement.getGeneratedKeys();
+				if (resultSet.next())
+					empId = resultSet.getInt(1);
+			}
+			employeePayrollData = new EmployeePayrollData(empId, name, salary, startDate);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return employeePayrollData;
+	}
 }
