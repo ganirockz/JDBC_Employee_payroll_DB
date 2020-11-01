@@ -24,7 +24,6 @@ public class EmployeePayrollTest {
 		Assert.assertEquals(3, entries);
 	}
 
-	@Test
 	public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -32,7 +31,6 @@ public class EmployeePayrollTest {
 		Assert.assertEquals(3, employeePayrollData.size());
 	}
 
-	@Test
 	public void givenNewSalaryForEmployee_WhenUpdated_ShouldMatch() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -41,7 +39,6 @@ public class EmployeePayrollTest {
 		Assert.assertTrue(result);
 	}
 
-	@Test
 	public void givenNewSalaryForEmployee_WhenUpdatedUsingPreparedStatement_ShouldSyncWithDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -50,7 +47,6 @@ public class EmployeePayrollTest {
 		Assert.assertTrue(result);
 	}
 
-	@Test
 	public void givenDateRange_WhenRetrieved_ShouldMatchEmployeeCount() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -61,7 +57,6 @@ public class EmployeePayrollTest {
 		Assert.assertEquals(3, employeePayrollData.size());
 	}
 
-	@Test
 	public void givenPayrollData_WhenAverageSalaryRetrievedByGender_ShouldReturnProperValue() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -78,5 +73,4 @@ public class EmployeePayrollTest {
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark", 5000000.00);
 		Assert.assertTrue(result);
 	}
-	
 }
