@@ -1,12 +1,14 @@
 package com.capgemini;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class EmployeePayrollData {
 	private int id;
 	private String name;
 	private double salary;
 	private LocalDate start;
+	private ArrayList<String> department;
 
 	public int getId() {
 		return id;
@@ -53,7 +55,7 @@ public class EmployeePayrollData {
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", name=" + name + ", salary=" + salary+"; ";
+		return "id=" + id + ", name=" + name + ", salary=" + salary + "; ";
 	}
 
 	@Override
@@ -64,5 +66,13 @@ public class EmployeePayrollData {
 			return false;
 		EmployeePayrollData that = (EmployeePayrollData) o;
 		return id == that.id && Double.compare(that.salary, salary) == 0 && name.equals(that.name);
+	}
+
+	public ArrayList<String> getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(ArrayList<String> department) {
+		this.department = department;
 	}
 }
