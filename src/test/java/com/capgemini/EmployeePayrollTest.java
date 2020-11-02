@@ -73,12 +73,20 @@ public class EmployeePayrollTest {
 		Assert.assertTrue(result);
 	}
 
-	@Test
 	public void givenNewEmployee_WhenAddedToPayroll_ShouldSyncWityhDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
 		employeePayrollService.addEmployeeToPayrollERDiagram("Glen", 5000000.00, LocalDate.now(), "M");
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Glen", 5000000.00);
+		Assert.assertTrue(result);
+	}
+
+	@Test
+	public void givenEmployee_WhenRemovedFromPayroll_ShouldSyncWityhDB() {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		employeePayrollService.removeEmployee("Glen");
+		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Glen", 5000000);
 		Assert.assertTrue(result);
 	}
 }
