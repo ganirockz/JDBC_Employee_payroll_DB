@@ -118,4 +118,9 @@ public class EmployeePayrollService {
 		employeePayrollList.add(employeePayrollData);
 	}
 
+	public void addEmployeeToPayrollERDiagram(String name, double salary, LocalDate startDate, String gender) {
+		EmployeePayrollData employeePayrollData = employeePayrollDBService.addEmployeeToPayrollERDiagram(name, salary,
+				startDate, gender);
+		employeePayrollList.add(employeePayrollData);
+	}
 }
