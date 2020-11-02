@@ -215,8 +215,8 @@ public class EmployeePayrollDBService {
 			e.printStackTrace();
 			try {
 				connection.rollback();
+				return employeePayrollData;
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -237,7 +237,6 @@ public class EmployeePayrollDBService {
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -245,7 +244,6 @@ public class EmployeePayrollDBService {
 			try {
 				connection.commit();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} finally {
