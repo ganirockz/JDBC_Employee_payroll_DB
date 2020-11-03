@@ -105,6 +105,7 @@ public class EmployeePayrollTest {
 				new EmployeePayrollData(0, "Anil", "M", 1000000.0, LocalDate.now()) };
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		employeePayrollService.printEmployeeData(IOService.DB_IO);
 		Instant start = Instant.now();
 		employeePayrollService.addEmployeesToPayroll(Arrays.asList(arrayOfEmps));
 		Instant end = Instant.now();
@@ -113,6 +114,7 @@ public class EmployeePayrollTest {
 		employeePayrollService.addEmployeesToPayrollWithThreads(Arrays.asList(arrayOfEmps));
 		Instant threadEnd = Instant.now();
 		System.out.println("Duration with Thread: " + Duration.between(threadStart, threadEnd));
+		employeePayrollService.printEmployeeData(IOService.DB_IO);
 		Assert.assertEquals(24, employeePayrollService.countEntries(IOService.DB_IO));
 	}
 
