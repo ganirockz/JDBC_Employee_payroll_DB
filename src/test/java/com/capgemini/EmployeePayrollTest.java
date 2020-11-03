@@ -114,7 +114,7 @@ public class EmployeePayrollTest {
 		System.out.println("Duration with Thread: " + Duration.between(threadStart, threadEnd));
 		Assert.assertEquals(24, employeePayrollService.countEntries(IOService.DB_IO));
 	}
-		
+
 	public void given6Employees_WhenAddedToERDiagramDB_ShouldMatchEmployeeEntries() {
 		EmployeePayrollData[] arrayOfEmps = { new EmployeePayrollData(0, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
 				new EmployeePayrollData(0, "Bill Gates", "M", 200000.0, LocalDate.now()),
@@ -135,7 +135,6 @@ public class EmployeePayrollTest {
 		Assert.assertEquals(24, employeePayrollService.countEntries(IOService.DB_IO));
 	}
 
-	@Test
 	public void given6Employees_WhenUpdatedDataInERDiagramImplementedDB_ShouldBeInSync() {
 		EmployeePayrollData[] arrayOfEmps = { new EmployeePayrollData(0, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
 				new EmployeePayrollData(0, "Bill Gates", "M", 300000.0, LocalDate.now()),
@@ -156,5 +155,27 @@ public class EmployeePayrollTest {
 				totalUpdated++;
 		}
 		Assert.assertEquals(6, totalUpdated);
+	}
+
+	@Before
+	public void Setup() {
+		RestAssured.baseURI = "http://localhost";
+		RestAssured.port = 3000;
+	}
+
+	@Test
+	public void givenEmployeeInJSONServer_whenRetrieved_ShouldMatchTheCount() {
+		EmployeePayrollData[] arrayOfEmps = getEmployeeList();
+		EmployeePayrollService employeePayrollService;
+		employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmps));
+		long entries = employeePayrollService.countEntries(IOService.REST_IO);
+		Assert.assertEquals(2, entries);
+	}
+
+	private EmployeePayrollData[] getEmployeeList() {
+		Response response = RestAssured.get("/employees");
+		System.out.println("EMPLOYEE PAYROLL ENTRIES IN JSONServer:\n" + response.asString());
+		EmployeePayrollData[] arrayOfEmps = new Gson().fromJson(response.asString(), EmployeePayrollData[].class);
+		return arrayOfEmps;
 	}
 }
