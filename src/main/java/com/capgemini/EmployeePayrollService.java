@@ -16,6 +16,7 @@ public class EmployeePayrollService {
 	}
 
 	public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
+		this();
 		this.employeePayrollList = employeePayrollList;
 	}
 
@@ -49,7 +50,7 @@ public class EmployeePayrollService {
 	}
 
 	public long countEntries(IOService fileIo) {
-		return 0;
+		return employeePayrollList.size();
 	}
 
 	public List<EmployeePayrollData> readEmployeePayrollData(IOService dbIo) {
@@ -126,5 +127,15 @@ public class EmployeePayrollService {
 
 	public void removeEmployee(String name) {
 		employeePayrollDBService.removeEmployee(name);
+	}
+
+	public void addEmployeesToPayroll(List<EmployeePayrollData> employeePayrollDataList) {
+		employeePayrollDataList.forEach(employeePayrollData -> {
+			System.out.println("Employee Being Added: " + employeePayrollData.getName());
+			this.addEmployeeToPayroll(employeePayrollData.getName(), employeePayrollData.getSalary(),
+					employeePayrollData.getStart(), employeePayrollData.getGender());
+			System.out.println("Employee Added: " + employeePayrollData.getName());
+		});
+		System.out.println(this.employeePayrollList);
 	}
 }

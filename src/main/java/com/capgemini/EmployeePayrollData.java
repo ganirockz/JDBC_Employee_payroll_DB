@@ -8,6 +8,7 @@ public class EmployeePayrollData {
 	private String name;
 	private double salary;
 	private LocalDate start;
+	private String gender;
 	private ArrayList<String> department;
 
 	public int getId() {
@@ -45,6 +46,11 @@ public class EmployeePayrollData {
 		this.start = startDate;
 	}
 
+	public EmployeePayrollData(int id, String name, String gender, double salary, LocalDate startDate) {
+		this(id, name, salary, startDate);
+		this.gender = gender;
+	}
+
 	public LocalDate getStart() {
 		return start;
 	}
@@ -74,5 +80,13 @@ public class EmployeePayrollData {
 
 	public void setDepartment(ArrayList<String> department) {
 		this.department = department;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 }

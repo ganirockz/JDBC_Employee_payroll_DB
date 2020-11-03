@@ -1,5 +1,7 @@
 package com.capgemini;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -9,6 +11,10 @@ import com.capgemini.EmployeePayrollData;
 import com.capgemini.EmployeePayrollService;
 import com.capgemini.EmployeePayrollService.IOService;
 import com.capgemini.EmployeePayrollService.IOService.*;
+import com.google.gson.Gson;
+
+import io.restassured.*;
+import io.restassured.response.Response;
 
 public class EmployeePayrollTest {
 
@@ -81,7 +87,6 @@ public class EmployeePayrollTest {
 		Assert.assertTrue(result);
 	}
 
-	@Test
 	public void givenEmployee_WhenRemovedFromPayroll_ShouldSyncWityhDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -89,4 +94,22 @@ public class EmployeePayrollTest {
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Glen", 5000000);
 		Assert.assertTrue(result);
 	}
+
+	@Test
+	public void given6Employees_WhenAddedToDB_ShouldMatchEmployeeEntries() {
+		EmployeePayrollData[] arrayOfEmps = { new EmployeePayrollData(0, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Bill Gates", "M", 200000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Mark Zuckerberg", "M", 300000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Sunder", "M", 600000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Mukesh", "M", 1000000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Anil", "M", 1000000.0, LocalDate.now()) };
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		Instant start = Instant.now();
+		employeePayrollService.addEmployeesToPayroll(Arrays.asList(arrayOfEmps));
+		Instant end = Instant.now();
+		System.out.println("Durataion without Thread: " + Duration.between(start, end));
+		Assert.assertEquals(18, employeePayrollService.countEntries(IOService.DB_IO));
+	}
+
 }

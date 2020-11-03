@@ -255,7 +255,7 @@ public class EmployeePayrollDBService {
 				}
 			}
 		}
-		return null;
+		return employeePayrollData;
 	}
 
 	public EmployeePayrollData addEmployeeToPayrollERDiagram(String name, double salary, LocalDate startDate,
