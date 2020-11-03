@@ -62,16 +62,18 @@ public class EmployeePayrollService {
 		return this.employeePayrollList;
 	}
 
-	public void updateEmployeeSalary(String name, double salary) {
-		int result = employeePayrollDBService.updateEmployeeData(name, salary);
-		if (result == 0)
-			return;
+	public void updateEmployeeSalary(String name, double salary, IOService ioService) {
+		if (ioService.equals(IOService.REST_IO)) {
+			int result = employeePayrollDBService.updateEmployeeData(name, salary);
+			if (result == 0)
+				return;
+		}
 		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
 		if (employeePayrollData != null)
 			employeePayrollData.setSalary(salary);
 	}
 
-	private EmployeePayrollData getEmployeePayrollData(String name) {
+	public EmployeePayrollData getEmployeePayrollData(String name) {
 		for (EmployeePayrollData data : employeePayrollList) {
 			if (data.getName().equals(name)) {
 				return data;
@@ -191,7 +193,7 @@ public class EmployeePayrollService {
 			Runnable task = () -> {
 				employeeAdditionStatus.put(employeePayrollData.hashCode(), false);
 				System.out.println("Employee Being Updated: " + Thread.currentThread().getName());
-				this.updateEmployeeSalary(employeePayrollData.getName(), employeePayrollData.getSalary());
+				this.updateEmployeeSalary(employeePayrollData.getName(), employeePayrollData.getSalary(),IOService.DB_IO);
 				System.out.println("Employee Updated: " + Thread.currentThread().getName());
 				employeeAdditionStatus.put(employeePayrollData.hashCode(), true);
 			};
@@ -213,4 +215,5 @@ public class EmployeePayrollService {
 		}
 		employeePayrollList.add(employeePayrollData);
 	}
+
 }
