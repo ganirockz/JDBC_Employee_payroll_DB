@@ -114,8 +114,7 @@ public class EmployeePayrollTest {
 		System.out.println("Duration with Thread: " + Duration.between(threadStart, threadEnd));
 		Assert.assertEquals(24, employeePayrollService.countEntries(IOService.DB_IO));
 	}
-
-	@Test
+		
 	public void given6Employees_WhenAddedToERDiagramDB_ShouldMatchEmployeeEntries() {
 		EmployeePayrollData[] arrayOfEmps = { new EmployeePayrollData(0, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
 				new EmployeePayrollData(0, "Bill Gates", "M", 200000.0, LocalDate.now()),
@@ -136,4 +135,26 @@ public class EmployeePayrollTest {
 		Assert.assertEquals(24, employeePayrollService.countEntries(IOService.DB_IO));
 	}
 
+	@Test
+	public void given6Employees_WhenUpdatedDataInERDiagramImplementedDB_ShouldBeInSync() {
+		EmployeePayrollData[] arrayOfEmps = { new EmployeePayrollData(0, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Bill Gates", "M", 300000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Mark Zuckerberg", "M", 400000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Sunder", "M", 700000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Mukesh", "M", 2000000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Anil", "M", 3000000.0, LocalDate.now()) };
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		Instant threadStart = Instant.now();
+		employeePayrollService.UpdateEmployeeDataInERDBWithThreads(Arrays.asList(arrayOfEmps));
+		Instant threadEnd = Instant.now();
+		System.out.println("Duration with Thread: " + Duration.between(threadStart, threadEnd));
+		int totalUpdated = 0;
+		for (EmployeePayrollData data : Arrays.asList(arrayOfEmps)) {
+			boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB(data.getName(), data.getSalary());
+			if (result)
+				totalUpdated++;
+		}
+		Assert.assertEquals(6, totalUpdated);
+	}
 }
