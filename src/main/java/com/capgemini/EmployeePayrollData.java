@@ -2,6 +2,7 @@ package com.capgemini;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EmployeePayrollData {
 	private int id;
@@ -62,6 +63,11 @@ public class EmployeePayrollData {
 	@Override
 	public String toString() {
 		return "id=" + id + ", name=" + name + ", salary=" + salary + "; ";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, gender, salary, start);
 	}
 
 	@Override
