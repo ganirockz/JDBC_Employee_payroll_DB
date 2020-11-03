@@ -205,4 +205,12 @@ public class EmployeePayrollService {
 			}
 		}
 	}
+
+	public void addEmployeeToPayroll(EmployeePayrollData employeePayrollData, IOService ioService) {
+		if (ioService.equals(IOService.DB_IO)) {
+			this.addEmployeeToPayroll(employeePayrollData.getName(), employeePayrollData.getSalary(),
+					employeePayrollData.getStart(), employeePayrollData.getGender());
+		}
+		employeePayrollList.add(employeePayrollData);
+	}
 }
