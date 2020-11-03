@@ -193,7 +193,8 @@ public class EmployeePayrollService {
 			Runnable task = () -> {
 				employeeAdditionStatus.put(employeePayrollData.hashCode(), false);
 				System.out.println("Employee Being Updated: " + Thread.currentThread().getName());
-				this.updateEmployeeSalary(employeePayrollData.getName(), employeePayrollData.getSalary(),IOService.DB_IO);
+				this.updateEmployeeSalary(employeePayrollData.getName(), employeePayrollData.getSalary(),
+						IOService.DB_IO);
 				System.out.println("Employee Updated: " + Thread.currentThread().getName());
 				employeeAdditionStatus.put(employeePayrollData.hashCode(), true);
 			};
@@ -214,6 +215,13 @@ public class EmployeePayrollService {
 					employeePayrollData.getStart(), employeePayrollData.getGender());
 		}
 		employeePayrollList.add(employeePayrollData);
+	}
+
+	public void deleteEmployeePayroll(String name, IOService ioService) {
+		if (ioService.equals(IOService.REST_IO)) {
+			EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+			employeePayrollList.remove(employeePayrollData);
+		}
 	}
 
 }
