@@ -41,6 +41,8 @@ public class EmployeePayrollService {
 	public void printEmployeeData(EmployeePayrollService.IOService ioService) {
 		if (ioService.equals(EmployeePayrollService.IOService.CONSOLE_IO))
 			System.out.println(employeePayrollList);
+		else
+			System.out.println(employeePayrollList);
 	}
 
 	public void writeEmployeePayrollData(EmployeePayrollService.IOService ioService) {
@@ -159,6 +161,5 @@ public class EmployeePayrollService {
 			} catch (InterruptedException e) {
 			}
 		}
-		System.out.println(employeePayrollDataList);
 	}
 }
