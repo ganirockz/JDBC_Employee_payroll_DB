@@ -95,7 +95,6 @@ public class EmployeePayrollTest {
 		Assert.assertTrue(result);
 	}
 
-	@Test
 	public void given6Employees_WhenAddedToDB_ShouldMatchEmployeeEntries() {
 		EmployeePayrollData[] arrayOfEmps = { new EmployeePayrollData(0, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
 				new EmployeePayrollData(0, "Bill Gates", "M", 200000.0, LocalDate.now()),
@@ -111,6 +110,27 @@ public class EmployeePayrollTest {
 		System.out.println("Durataion without Thread: " + Duration.between(start, end));
 		Instant threadStart = Instant.now();
 		employeePayrollService.addEmployeesToPayrollWithThreads(Arrays.asList(arrayOfEmps));
+		Instant threadEnd = Instant.now();
+		System.out.println("Duration with Thread: " + Duration.between(threadStart, threadEnd));
+		Assert.assertEquals(24, employeePayrollService.countEntries(IOService.DB_IO));
+	}
+
+	@Test
+	public void given6Employees_WhenAddedToERDiagramDB_ShouldMatchEmployeeEntries() {
+		EmployeePayrollData[] arrayOfEmps = { new EmployeePayrollData(0, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Bill Gates", "M", 200000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Mark Zuckerberg", "M", 300000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Sunder", "M", 600000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Mukesh", "M", 1000000.0, LocalDate.now()),
+				new EmployeePayrollData(0, "Anil", "M", 1000000.0, LocalDate.now()) };
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		Instant start = Instant.now();
+		employeePayrollService.addEmployeesToPayroll(Arrays.asList(arrayOfEmps));
+		Instant end = Instant.now();
+		System.out.println("Durataion without Thread: " + Duration.between(start, end));
+		Instant threadStart = Instant.now();
+		employeePayrollService.addEmployeesToERDBWithThreads(Arrays.asList(arrayOfEmps));
 		Instant threadEnd = Instant.now();
 		System.out.println("Duration with Thread: " + Duration.between(threadStart, threadEnd));
 		Assert.assertEquals(24, employeePayrollService.countEntries(IOService.DB_IO));
